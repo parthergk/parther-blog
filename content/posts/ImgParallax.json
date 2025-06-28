@@ -1,0 +1,184 @@
+{
+  "id": "ImgParallax",
+  "slug": "img-parallax-scroll-slider",
+  "title": "Creating a Parallax Scroll Image Slider with Framer Motion and Tailwind CSS",
+  "date": "June 28, 2025",
+  "author": "Gaurav Kumar",
+  "description": "In this blog post, I'll show you how I built a smooth parallax scroll image slider using Framer Motion, Next.js, and Tailwind CSS. This component creates a beautiful horizontal scroll effect that reacts to vertical scrolling — perfect for galleries, hero sections, or adding subtle depth to any landing page.",
+  "tags": [
+    "framer-motion",
+    "react",
+    "nextjs",
+    "tailwind-css",
+    "parallax",
+    "scroll-animation"
+  ],
+  "img": "/ImgParallax/img/demo.png",
+  "videoUrl": "/ImgParallax/video/demo.mp4",
+  "isFeatured": false,
+  "type": "Animation",
+  "seo": {
+    "title": "Parallax Scroll Image Slider – Framer Motion & Tailwind CSS",
+    "description": "Learn how to build a smooth parallax scroll image slider in React using Framer Motion and Tailwind CSS. Add depth and interactivity to your Next.js projects with ease.",
+    "keywords": [
+      "Parallax scroll",
+      "Framer Motion",
+      "React component",
+      "Next.js",
+      "Tailwind CSS",
+      "Scroll animation",
+      "Image slider"
+    ],
+    "img": "/ImgParallax/img/demo.png"
+  },
+  "content": [
+    {
+      "type": "DemoCard",
+      "props": {
+        "title": "Parallax Scroll Image Slider Demo",
+        "previewUrl": "/ImgParallax/video/demo.mp4",
+        "links": [
+          { "label": "Live Demo", "url": "/demo/ImgParallax" },
+          {
+            "label": "Source Code",
+            "url": "https://github.com/parthergk/blog-app/tree/main/components/demos/ImgParallax"
+          }
+        ]
+      }
+    },
+    {
+      "type": "CodeExplanation",
+      "props": {
+        "heading": "Understanding the Component",
+        "explanation": "The component displays two rows of images that move horizontally in opposite directions as the user scrolls vertically. This creates a smooth, layered parallax effect that brings depth to your UI — perfect for galleries, hero sections, or showcasing portfolios."
+      }
+    },
+    {
+      "type": "CodeExplanation",
+      "props": {
+        "heading": "Setting Up the Environment",
+        "explanation": "We are using React, Framer Motion and Tailwind CSS for styling.",
+        "list": ["Tailwind CSS", "React", "Framer Motion"]
+      }
+    },
+    {
+      "type": "CodeExplanation",
+      "props": {
+        "heading": "Setting Up the Image Rows",
+        "explanation": "Before we add any motion or scrolling effects, let’s start with the basic layout — two horizontal rows of images stacked vertically:"
+      }
+    },
+    {
+      "type": "CodeCard",
+      "props": {
+        "path": "app/index.tsx",
+        "code": "\"use client\";\nimport Image from \"next/image\";\nimport React from \"react\";\n\nconst Index = () => {\n  const leftImages = [\n    \"/ImgParallax/img/g.jpg\",\n    \"/ImgParallax/img/gg.jpg\",\n    \"/ImgParallax/img/ss.jpg\",\n    \"/ImgParallax/img/ssss.jpg\",\n    \"/ImgParallax/img/ttt.jpg\"\n  ];\n\n  const rightImages = [\n    \"/ImgParallax/img/ss.jpg\",\n    \"/ImgParallax/img/dd.jpg\",\n    \"/ImgParallax/img/ttt.jpg\",\n    \"/ImgParallax/img/sss.jpg\",\n    \"/ImgParallax/img/g.jpg\"\n  ];\n\n  return (\n    <div className=\"overflow-hidden relative z-10 w-full bg-EerieBlack px-0 sm:px-3 lg:px-5 py-52 md:py-32\">\n      <div className=\"flex justify-center gap-3 md:gap-4 py-0.5 md:py-2 h-32 md:h-56\">\n        {leftImages.map((src, index) => (\n          <Image\n            key={index}\n            alt={`img-${index}`}\n            src={src}\n            width={380}\n            height={253.36}\n            className=\"h-3/4 w-3/4 md:w-full md:h-full\"\n          />\n        ))}\n      </div>\n      <div className=\"flex justify-center gap-3 md:gap-4 py-0.5 md:py-2 h-32 md:h-56\">\n        {rightImages.map((src, index) => (\n          <Image\n            key={index}\n            alt={`img-${index}`}\n            src={src}\n            width={380}\n            height={253.36}\n            className=\"h-3/4 w-3/4 md:w-full md:h-full\"\n          />\n        ))}\n      </div>\n    </div>\n  );\n};\n\nexport default Index;",
+        "language": "tsx"
+      }
+    },
+    {
+      "type": "OutPutCard",
+      "props": {
+        "alt": "Preview of static image rows",
+        "img": "/ImgParallax/img/output/1.png"
+      }
+    },
+    {
+      "type": "CodeExplanation",
+      "props": {
+        "heading": "Adding Scroll-Based Parallax Motion",
+        "explanation": "With the static image rows set up, it’s time to bring them to life with a smooth parallax effect. In this step, you’ll use Framer Motion’s useScroll and useTransform hooks."
+      }
+    },
+    {
+      "type": "CodeExplanation",
+      "props": {
+        "heading": "🔍 What does this do?",
+        "list": [
+          "Track how much you’ve scrolled through the image container.",
+          "Map that scroll progress to horizontal movement for both rows.",
+          "Wrap the rows in <motion.div> so they animate as you scroll."
+        ]
+      }
+    },
+    {
+      "type": "CodeCard",
+      "props": {
+        "path": "app/index.tsx",
+        "code": "\"use client\";\nimport { useScroll, useTransform, motion } from \"framer-motion\";\nimport Image from \"next/image\";\nimport React, { useRef } from \"react\";\n\nconst Index = () => {\n  const container = useRef(null);\n\n  const { scrollYProgress } = useScroll({\n    target: container,\n    offset: [\"start end\", \"end start\"]\n  });\n\n  const xLeft = useTransform(scrollYProgress, [0, 1], [0, -150]);\n  const xRight = useTransform(scrollYProgress, [0, 1], [0, 100]);\n\n  const leftImages = [\n    \"/ImgParallax/img/g.jpg\",\n    \"/ImgParallax/img/gg.jpg\",\n    \"/ImgParallax/img/ss.jpg\",\n    \"/ImgParallax/img/ssss.jpg\",\n    \"/ImgParallax/img/ttt.jpg\"\n  ];\n\n  const rightImages = [\n    \"/ImgParallax/img/ss.jpg\",\n    \"/ImgParallax/img/dd.jpg\",\n    \"/ImgParallax/img/ttt.jpg\",\n    \"/ImgParallax/img/sss.jpg\",\n    \"/ImgParallax/img/g.jpg\"\n  ];\n\n  return (\n    <div\n      ref={container}\n      className=\"overflow-hidden relative z-10 w-full bg-EerieBlack px-0 sm:px-3 lg:px-5 py-52 md:py-32\"\n    >\n      <motion.div\n        className=\"flex justify-center gap-3 md:gap-4 py-0.5 md:py-2 h-32 md:h-56\"\n        style={{ x: xLeft }}\n      >\n        {leftImages.map((src, index) => (\n          <Image\n            key={index}\n            alt={`img-${index}`}\n            src={src}\n            width={380}\n            height={253.36}\n            className=\"h-3/4 w-3/4 md:w-full md:h-full\"\n          />\n        ))}\n      </motion.div>\n      <motion.div\n        className=\"flex justify-center gap-3 md:gap-4 py-0.5 md:py-2 h-32 md:h-56\"\n        style={{ x: xRight }}\n      >\n        {rightImages.map((src, index) => (\n          <Image\n            key={index}\n            alt={`img-${index}`}\n            src={src}\n            width={380}\n            height={253.36}\n            className=\"h-3/4 w-3/4 md:w-full md:h-full\"\n          />\n        ))}\n      </motion.div>\n    </div>\n  );\n};\n\nexport default Index;",
+        "language": "tsx"
+      }
+    },
+    {
+      "type": "CodeExplanation",
+      "props": {
+        "heading": "Attach a ref",
+        "explanation": "Attach a ref to the container. This tells useScroll exactly which section to watch:"
+      }
+    },
+    {
+      "type": "CodeCard",
+      "props": {
+        "path": "app/index.tsx",
+        "code": "const container = useRef(null);",
+        "language": "tsx"
+      }
+    },
+    {
+      "type": "CodeExplanation",
+      "props": {
+        "heading": "Track scroll progress",
+        "list": [
+          "scrollYProgress goes from 0 → 1 as the container enters and leaves the viewport.",
+          "The offset controls when the animation starts and ends."
+        ]
+      }
+    },
+    {
+      "type": "CodeCard",
+      "props": {
+        "path": "app/index.tsx",
+        "code": "const { scrollYProgress } = useScroll({\n  target: container,\n  offset: [\"start end\", \"end start\"]\n});",
+        "language": "tsx"
+      }
+    },
+    {
+      "type": "CodeExplanation",
+      "props": {
+        "heading": "Map scroll progress to horizontal motion",
+        "list": [
+          "The left row moves left up to -150px.",
+          "The right row moves right up to +100px."
+        ]
+      }
+    },
+    {
+      "type": "CodeCard",
+      "props": {
+        "path": "app/index.tsx",
+        "code": "const xLeft = useTransform(scrollYProgress, [0, 1], [0, -150]);\nconst xRight = useTransform(scrollYProgress, [0, 1], [0, 100]);",
+        "language": "tsx"
+      }
+    },
+    {
+      "type": "CodeExplanation",
+      "props": {
+        "explanation": "Wrap rows in <motion.div> and bind the x transform using the style prop — this makes the rows slide smoothly as you scroll."
+      }
+    },
+    {
+      "type": "DemoCard",
+      "props": {
+        "title": "Dual Theme Toggle Slider Demo",
+        "previewUrl": "/ImgParallax/video/demo.mp4"
+      }
+    },
+    {
+      "type": "CodeExplanation",
+      "props": {
+        "heading": "🎉 Conclusion",
+        "explanation": "You've successfully created a smooth Parallax Scroll Image Slider component! This demonstrates how simple scroll-based animations can add depth and interactivity to your Next.js projects with Framer Motion and Tailwind CSS."
+      }
+    }
+  ]
+}
