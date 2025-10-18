@@ -84,10 +84,15 @@ const page = () => {
       <Hero />
       <FeatureBlog />
       <div className=" relative w-full h-60 my-12 md:my-16 lg:my-24 bg-neutral-700">
-        <Image alt="gb" src="/img/bg.png" fill className=" grayscale cursor-pointer hover:grayscale-0 transition-all duration-300 ease-in" />
+        <Image
+          alt="gb"
+          src="/img/bg.png"
+          fill
+          className=" grayscale cursor-pointer hover:grayscale-0 transition-all duration-300 ease-in"
+        />
       </div>
       <LatestBlog />
-      <BlogTypeWrapper/>
+      <BlogTypeWrapper />
       <div className="my-12 md:my-16 lg:my-24 w-full h-60 bg-[#c0c0c0] dark:bg-neutral-700 flex justify-center items-center text-white px-5 md:px-7">
         <div className=" flex flex-col justify-center items-center gap-5">
           <div className=" rounded-2xl py-1 px-2 border border-neutral-400 dark:border-neutral-500 text-base ">
@@ -100,7 +105,9 @@ const page = () => {
               Subscribe
             </button>
           </div>
-          <h1 className=" text-2xl text-neutral-900 dark:text-white">No Spam</h1>
+          <h1 className=" text-2xl text-neutral-900 dark:text-white">
+            No Spam
+          </h1>
         </div>
       </div>
     </div>
