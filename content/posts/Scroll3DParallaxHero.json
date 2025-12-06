@@ -1,0 +1,179 @@
+{
+  "id": "Scroll3DParallaxHero",
+  "slug": "Scroll3DParallaxHero",
+  "title": "Creating Scroll-Based 3D Parallax Hero Animations in React with Framer Motion",
+  "date": "December 5, 2025",
+  "author": "Gaurav Kumar",
+  "description": "In this blog post, I’ll show you how to create an engaging scroll-based 3D parallax hero effect using React and Framer Motion. This effect rotates and scales your hero images on scroll, adding depth and interactivity to your landing page.",
+  "tags": [
+    "react",
+    "framer-motion",
+    "scroll-animation",
+    "3d-parallax",
+    "landing-page",
+    "hero-section",
+    "frontend-development"
+  ],
+  "img": "/Scroll3DParallaxHero/img/demo.png",
+  "videoUrl": "/Scroll3DParallaxHero/video/demo.mp4",
+  "isFeatured": false,
+  "type": "Animation",
+  "seo": {
+    "title": "Scroll-Based 3D Parallax Hero Animations – React & Framer Motion",
+    "description": "Learn how to create scroll-based 3D parallax hero animations in React using Framer Motion. Rotate and scale hero images on scroll to enhance landing page interactivity.",
+    "keywords": [
+      "Scroll Animation",
+      "3D Parallax",
+      "Hero Section",
+      "Framer Motion",
+      "React Component",
+      "Landing Page Animation",
+      "Frontend Development"
+    ],
+    "img": "/Scroll3DParallaxHero/img/demo.png"
+  },
+  "content": [
+    {
+      "type": "DemoCard",
+      "props": {
+        "title": "Scroll 3D Parallax Hero Demo",
+        "previewUrl": "/Scroll3DParallaxHero/video/demo.mp4",
+        "links": [
+          { "label": "Live Demo", "url": "/demo/Scroll3DParallaxHero" },
+          {
+            "label": "Source Code",
+            "url": "https://github.com/parthergk/blog-app/tree/main/components/demos/Scroll3DParallaxHero"
+          }
+        ]
+      }
+    },
+    {
+      "type": "CodeExplanation",
+      "props": {
+        "heading": "Introduction",
+        "explanation": "In modern landing pages, hero sections are the first thing users see. Adding a scroll-based 3D parallax effect gives your hero section depth and interactivity. Using React and Framer Motion, we can rotate and scale images dynamically as the user scrolls, making the page more engaging."
+      }
+    },
+    {
+      "type": "CodeExplanation",
+      "props": {
+        "heading": "Setting Up the Environment",
+        "explanation": "For this project, you need a React setup (Next.js preferred) and Framer Motion installed. Tailwind CSS is used for styling the layout:",
+        "list": [
+          "React (Next.js or Create React App)",
+          "Framer Motion",
+          "Tailwind CSS"
+        ]
+      }
+    },
+    {
+      "type": "CodeExplanation",
+      "props": {
+        "heading": "Creating the Hero Section Container",
+        "explanation": "We use a `motion.div` as the wrapper for the hero image. This allows us to animate the element based on scroll progress. A `useRef` hook tracks the container element, while `useScroll` and `useTransform` handle the scroll-based transformations."
+      }
+    },
+    {
+      "type": "CodeCard",
+      "props": {
+        "path": "components/HeroSection.tsx",
+        "code": "import Image from 'next/image';\nimport React, { useRef } from 'react';\nimport { motion, useScroll, useTransform } from 'framer-motion';\n\nconst HeroSection = () => {\n  const scrollRef = useRef(null);\n  const { scrollYProgress } = useScroll({\n    target: scrollRef,\n    offset: ['start end', 'center'],\n  });\n\n  const rotateX = useTransform(scrollYProgress, [0, 1], [24, 0]);\n  const scale = useTransform(scrollYProgress, [0, 1], [0.8, 1]);\n\n  return (\n    <div className=\"min-h-screen flex flex-col justify-center items-center pt-28 sm:pt-36 md:pt-48 gap-20\">\n      <motion.div ref={scrollRef} className=\"relative w-full\">\n        <div className=\"w-full mx-auto px-5 max-w-6xl perspective-[1200px]\">\n          <motion.div\n            style={{ perspective: 1200, rotateX, scale }}\n            className=\"w-full rounded-xl\"\n          >\n            <Image\n              width={5120}\n              height={2804}\n              quality={100}\n              unoptimized\n              alt=\"demo\"\n              src=\"/Scroll3DParallaxHero/img/dashboard.webp\"\n              className=\"rounded-xl\"\n            />\n          </motion.div>\n        </div>\n      </motion.div>\n    </div>\n  );\n};\n\nexport default HeroSection;",
+        "language": "tsx"
+      }
+    },
+    {
+      "type": "CodeExplanation",
+      "props": {
+        "heading": "How It Works",
+        "list": [
+          "`useRef` tracks the hero section DOM element.",
+          "`useScroll` tracks the scroll progress relative to the hero section.",
+          "`useTransform` maps scroll progress to rotation (`rotateX`) and scaling (`scale`).",
+          "The inner `motion.div` uses CSS `perspective` to create a 3D effect."
+        ]
+      }
+    },
+        {
+      "type": "CodeExplanation",
+      "props": {
+        "heading": "Understanding CSS Perspective",
+        "explanation": "The `perspective` property in CSS defines the distance between the user and the z=0 plane, essentially controlling the intensity of the 3D effect. In our hero component, we set `perspective: 1200px` on the container:",
+        "list": [
+          "A higher value (e.g., 1200px) creates a subtler, smoother 3D rotation effect.",
+          "A lower value would exaggerate the 3D effect, making the image tilt appear more dramatic.",
+          "The `perspective` affects child elements in 3D space, which in our case is the hero image inside the `motion.div`.",
+          "By using 1200px, we get a natural and visually pleasing parallax effect as the user scrolls."
+        ]
+      }
+    },
+        {
+      "type": "CodeCard",
+      "props": {
+        "path": "components/HeroSection.tsx",
+        "code": " perspective: 1200;",
+        "language": "tsx"
+      }
+    },
+    {
+      "type": "OutPutCard",
+      "props": {
+        "alt": "Preview of scroll-based 3D parallax hero effect",
+        "img": "/Scroll3DParallaxHero/img/output/1.png"
+      }
+    },
+    {
+      "type": "CodeExplanation",
+      "props": {
+        "heading": "Adding Scroll-Based Transformations",
+        "explanation": "We use Framer Motion hooks to smoothly animate rotation and scale based on scroll progress. The `rotateX` changes from 24 degrees to 0, and `scale` from 0.8 to 1 as the user scrolls down."
+      }
+    },
+    {
+      "type": "CodeCard",
+      "props": {
+        "path": "components/HeroSection.tsx",
+        "code": "const rotateX = useTransform(scrollYProgress, [0, 1], [24, 0]);\nconst scale = useTransform(scrollYProgress, [0, 1], [0.8, 1]);",
+        "language": "tsx"
+      }
+    },
+    {
+      "type": "CodeExplanation",
+      "props": {
+        "heading": "🔍 What does this do?",
+        "list": [
+          "`rotateX` tilts the hero image along the X-axis to give a 3D effect.",
+          "`scale` enlarges the image slightly as the user scrolls into view.",
+          "The combination creates a parallax effect that adds depth and interactivity to your hero section."
+        ]
+      }
+    },
+    {
+      "type": "OutPutCard",
+      "props": {
+        "alt": "Scroll-based rotation and scale preview",
+        "img": "/Scroll3DParallaxHero/img/output/2.png"
+      }
+    },
+    {
+      "type": "CodeExplanation",
+      "props": {
+        "heading": "🎯 Final Summary",
+        "explanation": "By combining Framer Motion’s `useScroll` and `useTransform` hooks with CSS perspective, we create a smooth scroll-based 3D parallax hero section. This effect draws attention and improves the user experience of your landing page."
+      }
+    },
+    {
+      "type": "DemoCard",
+      "props": {
+        "title": "Scroll 3D Parallax Hero Demo",
+        "previewUrl": "/Scroll3DParallaxHero/video/demo.mp4"
+      }
+    },
+    {
+      "type": "CodeExplanation",
+      "props": {
+        "heading": "🎉 Conclusion",
+        "explanation": "You’ve successfully built a scroll-based 3D parallax hero effect in React with Framer Motion. This effect can make your landing pages more interactive, visually appealing, and engaging for users."
+      }
+    }
+  ]
+}
